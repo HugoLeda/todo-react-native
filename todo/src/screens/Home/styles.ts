@@ -86,5 +86,22 @@ export const styles = StyleSheet.create({
   textGrey: {
     color: '#808080',
     fontSize: 14
+  },
+  taskCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    width: 327,
+    height: 75,
+    borderRadius: 8,
+    paddingHorizontal: 2,
+    paddingLeft: 1,
+    backgroundColor: '#262626'
+  },
+  task: {
+    color: '#F2F2F2',
+    fontSize: 14,
+    fontWeight: 'normal',
+    textAlign: 'justify',
   }
 });

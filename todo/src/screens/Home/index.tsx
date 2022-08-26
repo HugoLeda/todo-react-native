@@ -5,6 +5,10 @@ import { styles } from './styles'
 
 import logoImg from '../../../assets/Logo.png'
 import clipboard from '../../../assets/Clipboard.png'
+import trashImg from '../../../assets/trash.png'
+import checkImg from '../../../assets/check.png'
+import checkedImg from '../../../assets/checked.png'
+
 
 interface task {
   key: number;
@@ -59,8 +63,14 @@ export function Home() {
           Crie tarefas e organize seus itens a fazer
         </Text>
       </View>
-      <View>
-
+      <View style={styles.taskCard}>
+        <TouchableOpacity>
+          <Image source={checkImg}/>
+        </TouchableOpacity>
+        <Text style={styles.task}>Integer urna interdum massa libero auctor neque turpis turpis semper.</Text>
+        <TouchableOpacity>
+          <Image source={trashImg} />
+        </TouchableOpacity>
       </View>
     </View>
   )
