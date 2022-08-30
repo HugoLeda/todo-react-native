@@ -21,8 +21,10 @@ export function Home() {
   const [completed, setCompleted] = useState(0)
   const [tasks, setTasks] = useState<task[]>([])
 
-  const addTask = () => {
-    setCreated(created + 1)    
+  const addTask = (newTask: task) => {
+    setCreated(created + 1) 
+    const addNewTask = [...tasks, newTask]   
+    setTasks(addNewTask)
   }
 
   const changeTask = () => {
@@ -40,7 +42,7 @@ export function Home() {
           placeholder='Adicione uma nova tarefa'
           placeholderTextColor='#808080'
         />
-        <TouchableOpacity style={styles.button} onPress={addTask}>
+        <TouchableOpacity style={styles.button} onPress={addTask({})}>
           <Text style={styles.buttonContent}>+</Text>
         </TouchableOpacity>
       </View>

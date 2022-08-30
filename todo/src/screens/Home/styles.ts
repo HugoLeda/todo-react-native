@@ -93,15 +93,13 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     width: 327,
     height: 75,
-    borderRadius: 8,
-    paddingHorizontal: 2,
-    paddingLeft: 1,
+    borderRadius: 8,    
     backgroundColor: '#262626'
   },
   task: {
     color: '#F2F2F2',
     fontSize: 14,
     fontWeight: 'normal',
-    textAlign: 'justify',
+    textAlign: 'justify',    
   }
 });
