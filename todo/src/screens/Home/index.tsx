@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { FlatList, Image, Text, TextInput, TouchableOpacity, View } from 'react-native'
 
 import { styles } from './styles'
 
@@ -10,21 +10,24 @@ import checkImg from '../../../assets/check.png'
 import checkedImg from '../../../assets/checked.png'
 
 
-interface task {
-  key: number;
+interface task {  
   description: string;
   completed: Boolean;
 }
 
 export function Home() {
+  const [key, setKey] = useState(1)
+  const [description, setDescription] = useState('')
   const [created, setCreated] = useState(0)
   const [completed, setCompleted] = useState(0)
   const [tasks, setTasks] = useState<task[]>([])
 
-  const addTask = (newTask: task) => {
+  const addTask = (newTask: task) => {    
     setCreated(created + 1) 
+    setKey(key + 1)
     const addNewTask = [...tasks, newTask]   
-    setTasks(addNewTask)
+    setTasks(addNewTask)    
+    setDescription('')
   }
 
   const changeTask = () => {
@@ -34,15 +37,17 @@ export function Home() {
   return (
     <View style={styles.container}>
       <View style={styles.containerHead}>
-        <Image source={logoImg}/>
+        <Image source={logoImg} />
       </View>  
       <View style={styles.containerInput}>
         <TextInput 
           style={styles.input}
           placeholder='Adicione uma nova tarefa'
-          placeholderTextColor='#808080'
+          placeholderTextColor='#808080'        
+          value={description}  
+          onChangeText={text => setDescription(text)}
         />
-        <TouchableOpacity style={styles.button} onPress={addTask({})}>
+        <TouchableOpacity style={styles.button} onPress={() => addTask({description, completed: false})}>
           <Text style={styles.buttonContent}>+</Text>
         </TouchableOpacity>
       </View>
@@ -55,25 +60,36 @@ export function Home() {
           <Text style={styles.textPurple}>Concluídas</Text>
           <Text style={styles.counter}>0</Text>
         </View>
-      </View>
-      <View style={styles.empty}>
-        <Image source={clipboard} />
-        <Text style={styles.textGrey}>
-          Você ainda não tem tarefas cadastradas
-        </Text>
-        <Text style={styles.textGrey}>
-          Crie tarefas e organize seus itens a fazer
-        </Text>
-      </View>
-      <View style={styles.taskCard}>
-        <TouchableOpacity>
-          <Image source={checkImg}/>
-        </TouchableOpacity>
-        <Text style={styles.task}>Integer urna interdum massa libero auctor neque turpis turpis semper.</Text>
-        <TouchableOpacity>
-          <Image source={trashImg} />
-        </TouchableOpacity>
-      </View>
+      </View>      
+      <FlatList
+        data={tasks}
+        keyExtractor={item => item.description}
+        renderItem={({ item }) => (
+          <View style={styles.taskCard}>
+            <TouchableOpacity>
+              <Image source={checkImg}/>
+            </TouchableOpacity>
+            <Text style={styles.task}>
+              {item.description}
+            </Text>
+            <TouchableOpacity>
+              <Image source={trashImg} />
+            </TouchableOpacity>
+          </View>
+        )}
+        ListEmptyComponent={() => (
+          <View style={styles.empty}>
+            <Image source={clipboard} />
+            <Text style={styles.textGrey}>
+              Você ainda não tem tarefas cadastradas
+            </Text>
+            <Text style={styles.textGrey}>
+              Crie tarefas e organize seus itens a fazer
+            </Text>
+          </View>
+        )}
+      />
+      
     </View>
   )
 }

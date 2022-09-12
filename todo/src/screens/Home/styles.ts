@@ -100,6 +100,6 @@ export const styles = StyleSheet.create({
     color: '#F2F2F2',
     fontSize: 14,
     fontWeight: 'normal',
-    textAlign: 'justify',    
+    width: 250,
   }
 });
