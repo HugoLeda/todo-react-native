@@ -101,5 +101,12 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'normal',
     width: 250,
+  },
+  taskCompleted: {
+    color: '#F2F2F2',
+    fontSize: 14,
+    fontWeight: 'normal',
+    width: 250,
+    textDecorationLine: 'line-through',
   }
 });

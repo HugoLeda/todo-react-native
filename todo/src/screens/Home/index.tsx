@@ -1,5 +1,7 @@
 import { useState } from 'react'
-import { FlatList, Image, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Alert, FlatList, Image, Text, TextInput, TouchableOpacity, View } from 'react-native'
+
+import uuid from 'react-native-uuid'
 
 import { styles } from './styles'
 
@@ -10,28 +12,60 @@ import checkImg from '../../../assets/check.png'
 import checkedImg from '../../../assets/checked.png'
 
 
-interface task {  
+interface task {
+  key: any;  
   description: string;
   completed: Boolean;
 }
 
-export function Home() {
-  const [key, setKey] = useState(1)
+export function Home() {  
   const [description, setDescription] = useState('')
   const [created, setCreated] = useState(0)
   const [completed, setCompleted] = useState(0)
   const [tasks, setTasks] = useState<task[]>([])
 
-  const addTask = (newTask: task) => {    
-    setCreated(created + 1) 
-    setKey(key + 1)
+  const addTask = ({description, completed, key}: task) => {    
+    setCreated(created + 1)    
+    
+    key = uuid.v4() 
+    completed = false
+
+    const newTask = {description, completed, key}
     const addNewTask = [...tasks, newTask]   
+    
     setTasks(addNewTask)    
-    setDescription('')
+    setDescription('')        
   }
 
-  const changeTask = () => {
+  const changeTask = (task: task) => {    
+    setCompleted(completed + 1)
+    
+    let state = task.completed
+    let newTasks = tasks.map( item => {
+      if (item.key === task.key) {
+        task.completed = !task.completed
+        state = task.completed
+      } 
+    })
+    
+    //setTasks(newTasks)
 
+  }
+
+  const deleteTask = (task: task) => {
+    Alert.alert('Remover', `Remover a tarefa ${task.description}`, [
+      {
+        text: 'Sim',
+        onPress: () => {
+          setTasks(prevState => prevState.filter(item => item.key !== task.key))
+          setCreated(created - 1)
+        }
+      },
+      {
+        text: 'Não',
+        style: 'cancel'
+      }
+    ])
   }
 
   return (
@@ -47,7 +81,7 @@ export function Home() {
           value={description}  
           onChangeText={text => setDescription(text)}
         />
-        <TouchableOpacity style={styles.button} onPress={() => addTask({description, completed: false})}>
+        <TouchableOpacity style={styles.button} onPress={() => addTask({description, completed: false, key: 0})}>
           <Text style={styles.buttonContent}>+</Text>
         </TouchableOpacity>
       </View>
@@ -63,16 +97,22 @@ export function Home() {
       </View>      
       <FlatList
         data={tasks}
-        keyExtractor={item => item.description}
+        keyExtractor={item => item.key}
         renderItem={({ item }) => (
           <View style={styles.taskCard}>
             <TouchableOpacity>
               <Image source={checkImg}/>
             </TouchableOpacity>
-            <Text style={styles.task}>
-              {item.description}
-            </Text>
-            <TouchableOpacity>
+            {
+              item.completed 
+              ? <Text style={styles.taskCompleted}>              
+                  {item.description}
+                </Text>
+              : <Text style={styles.task}>              
+                  {item.description}
+                </Text> 
+            }           
+            <TouchableOpacity onPress={ () => deleteTask(item)}>
               <Image source={trashImg} />
             </TouchableOpacity>
           </View>
