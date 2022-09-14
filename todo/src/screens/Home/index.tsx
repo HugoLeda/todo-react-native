@@ -41,6 +41,7 @@ export function Home() {
     setCompleted(completed + 1)
     
     let state = task.completed
+    
     let newTasks = tasks.map( item => {
       if (item.key === task.key) {
         task.completed = !task.completed
