@@ -106,12 +106,12 @@ export function Home() {
             </TouchableOpacity>
             {
               item.completed 
-              ? <Text style={styles.taskCompleted}>              
-                  {item.description}
-                </Text>
-              : <Text style={styles.task}>              
-                  {item.description}
-                </Text> 
+                ? <Text style={styles.taskCompleted}>              
+                    {item.description}
+                  </Text>
+                : <Text style={styles.task}>              
+                    {item.description}
+                  </Text> 
             }           
             <TouchableOpacity onPress={ () => deleteTask(item)}>
               <Image source={trashImg} />
