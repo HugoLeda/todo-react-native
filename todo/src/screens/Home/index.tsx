@@ -42,12 +42,13 @@ export function Home() {
     
     let state = task.completed
     
-    let newTasks = tasks.map( item => {
-      if (item.key === task.key) {
+    setTasks(prevState => prevState.map(item => item.key === task.key ? item.completed = !item.completed : ))
+    for (let i = 0; i < tasks.length; i++) {
+      if (tasks[0].key === task.key) {
         task.completed = !task.completed
         state = task.completed
-      } 
-    })
+      }
+    }  
     
     //setTasks(newTasks)
 
