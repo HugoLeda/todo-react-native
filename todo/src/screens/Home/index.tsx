@@ -38,19 +38,20 @@ export function Home() {
   }
 
   const changeTask = (task: task) => {    
-    setCompleted(completed + 1)
+       
+    let operador
+    task.completed ? operador = completed - 1 : operador  = completed + 1 
+    setCompleted(operador)
+
+    let newTasks = tasks
     
-    let state = task.completed
-    
-    setTasks(prevState => prevState.map(item => item.key === task.key ? item.completed = !item.completed : ))
-    for (let i = 0; i < tasks.length; i++) {
-      if (tasks[0].key === task.key) {
-        task.completed = !task.completed
-        state = task.completed
+    for (let i = 0; i < newTasks.length; i++) {
+      if (newTasks[i].key === task.key) {
+        newTasks[i].completed = !task.completed        
       }
     }  
     
-    //setTasks(newTasks)
+    setTasks(newTasks)
 
   }
 
@@ -61,6 +62,8 @@ export function Home() {
         onPress: () => {
           setTasks(prevState => prevState.filter(item => item.key !== task.key))
           setCreated(created - 1)
+          if (task.completed) 
+            setCompleted(completed - 1)
         }
       },
       {
@@ -94,7 +97,7 @@ export function Home() {
         </View>
         <View style={styles.menuText}>
           <Text style={styles.textPurple}>Concluídas</Text>
-          <Text style={styles.counter}>0</Text>
+          <Text style={styles.counter}>{completed}</Text>
         </View>
       </View>      
       <FlatList
@@ -102,7 +105,7 @@ export function Home() {
         keyExtractor={item => item.key}
         renderItem={({ item }) => (
           <View style={styles.taskCard}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => changeTask(item)}>
               <Image source={checkImg}/>
             </TouchableOpacity>
             {
